@@ -3,6 +3,7 @@
 #include <tuple>
 #include <unordered_set>
 #include <optional>
+#include <sstream>
 
 template <typename T>
 struct signal
@@ -95,4 +96,15 @@ int main()
 
   s1.set(2);
   std::cout << c2.get() << std::endl;
+
+  auto s2 = signal{std::string{"hello"}};
+
+  auto c3 = computable{[](int a, std::string const & b)
+                       {
+                           std::stringstream ss;
+                           ss << b << a;
+                           return ss.str();
+                       }, c1, s2};
+
+  std::cout << c3.get() << std::endl;
 }
